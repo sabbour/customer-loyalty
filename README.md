@@ -34,7 +34,7 @@ This will take roughly 30 minutes as this will provision:
 
 # How to run the 
 *	Have a look at the Customer API App that will be deployed at http://customerApi[uniqueId].azurewebsites.net/swagger
-*	Update the customers.json file with your email. You can edit it online here https://customerApi[uniqueId].scm.azurewebsites.net/dev/wwwroot/App_Data/customers.json
+*	Update the **customers.json** file with your email. You can edit it online here https://customerApi[uniqueId].scm.azurewebsites.net/dev/wwwroot/App_Data/customers.json
 *	Import Customer API App into API Management
 *	Check out the functions (GatherFeedback and GenerateCoupon) deployed in the Function App
 *	Test the Feedback Web App that will be deployed at http://feedbackWeb[uniqueId].azurewebsites.net

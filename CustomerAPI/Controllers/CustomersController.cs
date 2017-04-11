@@ -24,7 +24,7 @@ namespace CustomerAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("customers")]
-        public IList<Customer> Get()
+        public IList<Customer> GetCustomers()
         {
             return customers;
         }
@@ -34,8 +34,8 @@ namespace CustomerAPI.Controllers
         /// </summary>
         /// <param name="phonenumber"></param>
         /// <returns></returns>
-        [Route("customers/{phonenumber}")]
-        public Customer Get(string phonenumber)
+        [Route("customer/{phonenumber}")]
+        public Customer GetCustomerByPhoneNumber(string phonenumber)
         {
             var customer = customers.Where(c => c.PhoneNumber == phonenumber).FirstOrDefault();
             return customer;
