@@ -17,11 +17,9 @@ In short, you need to have created both those APIs from the portal at least once
 
 # How to install the solution
 Hit the Deploy to Azure button to deploy the solution to the subscription you are logged into
+
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsabbour%2Fcustomer-loyalty%2Fmaster%2FDeployment%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fsabbour%2Fcustomer-loyalty%2Fmaster%2FDeployment%2Fazuredeploy.json" target="_blank">
-    <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
 This will take roughly 30 minutes as this will provision:
