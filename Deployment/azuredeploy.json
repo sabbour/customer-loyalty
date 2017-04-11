@@ -140,10 +140,7 @@
           },
           "properties": {
             "name": "[variables('functionAppName')]",
-            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('functionDynamicPlanName'))]",
-            "repoUrl": "[parameters('repositoryUrl')]",
-            "branch": "[parameters('repositoryBranch')]",
-            "IsManualIntegration": true,
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('functionDynamicPlanName'))]",           
             "siteConfig": {
               "appSettings": [
                 {
@@ -185,6 +182,21 @@
           "dependsOn": [
             "[resourceId('Microsoft.Web/serverfarms', variables('functionDynamicPlanName'))]",
             "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+          ],
+          "resources": [
+            {
+              "apiVersion": "2015-08-01",
+              "name": "Git Connection Function App",
+              "type": "sourcecontrols",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
+              ],
+              "properties": {
+                "repoUrl": "[parameters('repositoryUrl')]",
+                "branch": "[parameters('repositoryBranch')]",
+                "IsManualIntegration": true
+              }
+            }
           ]
         }
       ]
@@ -231,9 +243,6 @@
           "properties": {
             "name": "[variables('feedbackWebAppName')]",
             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
-            "repoUrl": "[parameters('repositoryUrl')]",
-            "branch": "[parameters('repositoryBranch')]",
-            "IsManualIntegration": true,
             "siteConfig": {
               "appSettings": [
                 {
@@ -250,7 +259,22 @@
                 }
               ]
             }
-          }
+          },
+          "resources": [
+            {
+              "apiVersion": "2015-08-01",
+              "name": "Git Connection Feedback Web App",
+              "type": "sourcecontrols",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('feedbackWebAppName'))]"
+              ],
+              "properties": {
+                "repoUrl": "[parameters('repositoryUrl')]",
+                "branch": "[parameters('repositoryBranch')]",
+                "IsManualIntegration": true
+              }
+            }
+          ]
         },
         {
           "name": "[variables('apiAppName')]",
@@ -271,9 +295,6 @@
           "properties": {
             "name": "[variables('apiAppName')]",
             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
-            "repoUrl": "[parameters('repositoryUrl')]",
-            "branch": "[parameters('repositoryBranch')]",
-            "IsManualIntegration": true,
             "siteConfig": {
               "appSettings": [
                 {
@@ -290,7 +311,22 @@
                 ]
               }
             }
-          }
+          },
+          "resources": [
+            {
+              "apiVersion": "2015-08-01",
+              "name": "Git Connection Customer API App",
+              "type": "sourcecontrols",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('apiAppName'))]"
+              ],
+              "properties": {
+                "repoUrl": "[parameters('repositoryUrl')]",
+                "branch": "[parameters('repositoryBranch')]",
+                "IsManualIntegration": true
+              }
+            }
+          ]
         }
       ],
       "dependsOn": [
