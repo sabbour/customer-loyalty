@@ -12,17 +12,29 @@
         "S4"
       ],
       "defaultValue": "F0"
+    },
+    "bingSpeechSkuName": {
+      "type": "string",
+      "allowedValues": [
+        "F0",
+        "S0"
+      ],
+      "defaultValue": "F0"
     }
   },
   "variables": {
     "storageName": "[concat('storage', uniqueString(resourceGroup().id))]",
-    "apiMgmtName": "[concat('apim', uniqueString(resourceGroup().id))]",
     "functionAppName": "[concat('funcapp', uniqueString(resourceGroup().id))]",
+    "functionDynamicPlanName": "[concat('dynasp', uniqueString(resourceGroup().id))]",
     "logicAppName": "[concat('logicapp', uniqueString(resourceGroup().id))]",
-    "textAnalyticsName": "[concat('textAnalytics', uniqueString(resourceGroup().id))]"
+    "textAnalyticsName": "[concat('textAnalytics', uniqueString(resourceGroup().id))]",
+    "speechToTextName": "[concat('speechToText', uniqueString(resourceGroup().id))]",
+    "appServicePlanName": "[concat('asp', uniqueString(resourceGroup().id))]",
+    "apiAppName": "[concat('customerApi', uniqueString(resourceGroup().id))]",
+    "feedbackWebAppName": "[concat('feedbackWeb', uniqueString(resourceGroup().id))]",
+    "apiMgmtName": "[concat('apim', uniqueString(resourceGroup().id))]"
   },
   "resources": [
-
     {
       "apiVersion": "2016-01-01",
       "type": "Microsoft.Storage/storageAccounts",
@@ -61,6 +73,21 @@
     {
       "type": "Microsoft.CognitiveServices/accounts",
       "sku": {
+        "name": "[parameters('bingSpeechSkuName')]"
+      },
+      "kind": "Bing.Speech",
+      "name": "[variables('speechToTextName')]",
+      "tags": {
+        "displayName": "Bing Speech To Text"
+      },
+      "apiVersion": "2016-02-01-preview",
+      "location": "global",
+      "properties": {},
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "sku": {
         "name": "[parameters('textAnalyticsSkuName')]"
       },
       "kind": "TextAnalytics",
@@ -72,8 +99,200 @@
       "location": "westus",
       "properties": {},
       "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "sku": {
+        "name": "Y1",
+        "tier": "Dynamic",
+        "size": "Y1",
+        "family": "Y",
+        "capacity": 0
+      },
+      "tags": {
+        "displayName": "Function Dynamic App Service Plan"
+      },
+      "kind": "functionapp",
+      "name": "[variables('functionDynamicPlanName')]",
+      "apiVersion": "2015-08-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[variables('functionDynamicPlanName')]",
+        "numberOfWorkers": 0
+      },
+      "resources": [
+        {
+          "type": "Microsoft.Web/sites",
+          "kind": "functionapp",
+          "name": "[variables('functionAppName')]",
+          "apiVersion": "2016-03-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+            "displayName": "Function App"
+          },
+          "properties": {
+            "name": "[variables('functionAppName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('functionDynamicPlanName'))]",
+            "siteConfig": {
+              "appSettings": [
+                {
+                  "name": "QueueStorageConnection",
+                  "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+                },
+                {
+                  "name": "AzureWebJobsDashboard",
+                  "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+                },
+                {
+                  "name": "AzureWebJobsStorage",
+                  "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+                },
+                {
+                  "name": "FUNCTIONS_EXTENSION_VERSION",
+                  "value": "~1"
+                },
+                {
+                  "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                  "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+                },
+                {
+                  "name": "WEBSITE_CONTENTSHARE",
+                  "value": "[concat(toLower(variables('functionAppName')), '1fddb6508b60')]"
+                }
+              ]
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', variables('functionDynamicPlanName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "sku": {
+        "name": "S1",
+        "tier": "Standard",
+        "size": "S1",
+        "family": "S",
+        "capacity": 0
+      },
+      "tags": {
+        "displayName": "App Service Plan"
+      },
+      "kind": "app",
+      "name": "[variables('appServicePlanName')]",
+      "apiVersion": "2015-08-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[variables('appServicePlanName')]",
+        "numberOfWorkers": 0
+      },
+      "resources": [
+        {
+          "name": "[variables('feedbackWebAppName')]",
+          "type": "Microsoft.Web/sites",
+          "location": "[resourceGroup().location]",
+          "kind": "app",
+          "apiVersion": "2015-08-01",
+          "tags": {
+            "displayName": "Feedback Web App"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+            "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]",
+            "[resourceId('Microsoft.CognitiveServices/accounts', variables('speechToTextName'))]"
+          ],
+          "tags": {
+            "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName')))]": "Resource",
+            "displayName": "Feedback Web App"
+          },
+          "properties": {
+            "name": "[variables('feedbackWebAppName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+            "siteConfig": {
+              "appSettings": [
+                {
+                  "name": "SpeechAPIKey",
+                  "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('speechToTextName')), '2016-02-01-preview').key1]"
+                },
+                {
+                  "name": "FunctionAppUrl",
+                  "value": "[reference(resourceId('Microsoft.Web/sites',variables('functionAppName')), '2015-08-01').defaultHostName]"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "[variables('apiAppName')]",
+          "type": "Microsoft.Web/sites",
+          "location": "[resourceGroup().location]",
+          "kind": "api",
+          "apiVersion": "2015-08-01",
+          "tags": {
+            "displayName": "Customer Details API App"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+          ],
+          "tags": {
+            "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName')))]": "Resource",
+            "displayName": "Customer Details API App"
+          },
+          "properties": {
+            "name": "[variables('apiAppName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+          }
+        }
+      ],
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('functionDynamicPlanName'))]"
+      ]
+    },
+    {
+      "name": "[variables('apiMgmtName')]",
+      "type": "Microsoft.ApiManagement/service",
+      "apiVersion": "2016-07-07",
+      "tags": {
+        "displayName": "API Management Gateway"
+      },
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publisherEmail": "customerloyalty@publisher.com",
+        "publisherName": "Customer Loyalty"
+      },
+      "sku": {
+        "name": "Developer",
+        "capacity": 1
+      }
     }
   ],
   "outputs": {
+    "functionAppFQDN": {
+      "value": "[reference(resourceId('Microsoft.Web/sites',variables('functionAppName')), '2015-08-01').defaultHostName]",
+      "type": "string"
+    },
+    "feedbackAppFQDN": {
+      "value": "[reference(resourceId('Microsoft.Web/sites',variables('feedbackWebAppName')), '2015-08-01').defaultHostName]",
+      "type": "string"
+    },
+    "customerAPIFQDN": {
+      "value": "[reference(resourceId('Microsoft.Web/sites',variables('apiAppName')), '2015-08-01').defaultHostName]",
+      "type": "string"
+    },
+    "apiMgmtFQDN": {
+      "value": "[reference(resourceId('Microsoft.ApiManagement/service',variables('apiMgmtName')), '2016-07-07').runtimeUrl]",
+      "type": "string"
+    },
+    "SpeechAPIKey": {
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('speechToTextName')), '2016-02-01-preview').key1]",
+      "type": "string"
+    },
+    "TextAnalyticsAPIKey": {
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('textAnalyticsName')), '2016-02-01-preview').key1]",
+      "type": "string"
+    }
   }
 }

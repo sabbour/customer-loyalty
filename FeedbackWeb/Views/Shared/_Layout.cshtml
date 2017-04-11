@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src="~/Scripts/speech.1.0.0.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var client;
+        var request;
+
+        function getMode() {
+            return Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase;
+        }
+
+        function getKey() {
+            return document.getElementById("key").value;
+        }
+
+        function getLanguage() {
+            return "en-us";
+        }
+
+        function clearText() {
+            document.getElementById("output").value = "";
+        }
+
+        function setText(text) {
+            if (text != null && text[0] != null) {
+                var confidence = text[0].confidence;
+                var display = text[0].display;
+                var lexical = text[0].lexical;
+                document.getElementById("output").value += display;
+            }
+        }
+
+        function start() {
+            document.getElementById('talkbutton').setAttribute("disabled", "disabled");
+            var mode = getMode();
+
+            console.log("Clearing text");
+            clearText();
+
+            console.log("Initializing client");
+            client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClient(
+                mode,
+                getLanguage(),
+                getKey());
+
+            console.log("Starting recognition for 5 seconds..");
+            timer(
+                5000, // milliseconds
+                function (timeleft) { // called every step to update the visible countdown
+                    document.getElementById('timer').innerHTML = " " + timeleft + " second(s)";
+                },
+                function () { 
+                    document.getElementById('timer').innerHTML = "";
+                }
+            );
+            client.startMicAndRecognition();
+
+            setTimeout(function () {
+                console.log("Ending recognition");
+                client.endMicAndRecognition();
+            }, 5000);
+
+            client.onPartialResponseReceived = function (response) {
+                console.log("Partial response received: " + response);
+                setText(response);
+            }
+
+            client.onFinalResponseReceived = function (response) {
+                console.log("Final response received: " + response);
+                setText(response);
+                document.getElementById('talkbutton').removeAttribute("disabled");
+            }
+
+            client.onIntentReceived = function (response) {
+                console.log("Intent received: " + response);
+                setText(response);
+                document.getElementById('talkbutton').removeAttribute("disabled");
+            };
+        }
+
+        function send() {
+
+        }
+
+        function timer(time, update, complete) {
+            var start = new Date().getTime();
+            var interval = setInterval(function () {
+                var now = time - (new Date().getTime() - start);
+                if (now <= 0) {
+                    clearInterval(interval);
+                    complete();
+                }
+                else update(Math.floor(now / 1000));
+            }, 100); // the smaller this number, the more accurate the timer will be
+        }
+    </script>
+</head>
+<body style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+    @RenderBody()
+</body>
+</html>

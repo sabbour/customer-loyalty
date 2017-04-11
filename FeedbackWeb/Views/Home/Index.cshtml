@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<input hidden="hidden" id="key" type="text" size="40" value="@ViewBag.SpeechAPIKey">
+<table width="100%">
+    <tr><td /><td><h1>Provide your feedback</h1><h2>We're eager to listen to your opinion about your latest interaction</h2></td></tr>
+    <tr>
+        <td />
+        <td><button id="talkbutton" onclick="start()">Talk</button><span id="timer"/></td>
+    </tr>
+    <tr>
+        <td />
+        <td>
+            <textarea id="output" style='width:700px; height:50px;font-size: 35px;'></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">Phone number:</td>
+        <td><input id="phonenumber" type="tel" size="10" value="0123456776"></td>
+    </tr>
+    <tr>
+        <td />
+        <td><button onclick="send()">Send</button></td>
+    </tr>
+</table>
