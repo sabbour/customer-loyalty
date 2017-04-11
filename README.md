@@ -32,10 +32,15 @@ This will take roughly 30 minutes as this will provision:
 *	An API Management instance (Developer Tier)
 *	Storage Account to for Queues and Blob Storage of the generated coupons
 
-# How to run the 
+# How to run the solution
 *	Have a look at the Customer API App that will be deployed at http://customerApi[uniqueId].azurewebsites.net/swagger
 *	Update the **customers.json** file with your email. You can edit it online here https://customerApi[uniqueId].scm.azurewebsites.net/dev/wwwroot/App_Data/customers.json
 *	Import Customer API App into API Management
+![alt text](Documentation/apim1.PNG)
+![alt text](Documentation/apim2.PNG)
+![alt text](Documentation/apim3.PNG)
+![alt text](Documentation/apim4.PNG)
+
 *	Check out the functions (GatherFeedback and GenerateCoupon) deployed in the Function App
 *	Test the Feedback Web App that will be deployed at http://feedbackWeb[uniqueId].azurewebsites.net
 *	Edit the logic app by adding Queue trigger, then the required actions for Sentiment Analysis, Coupon generation and Email
