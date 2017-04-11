@@ -169,7 +169,7 @@
                 },
                 {
                   "name": "Project",
-                  "value": "FunctionApp/FunctionApp.csproj"
+                  "value": "FunctionApp"
                 }
               ],
               "cors": {
