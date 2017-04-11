@@ -1,22 +1,22 @@
-﻿{
+{
   "bindings": [
     {
-      "authLevel": "anonymous",
+      "authLevel": "function",
       "name": "req",
       "type": "httpTrigger",
       "direction": "in"
     },
     {
+      "name": "$return",
       "type": "http",
-      "direction": "out",
-      "name": "res"
+      "direction": "out"
     },
     {
       "type": "blob",
       "name": "outputBlob",
-      "path": "coupons/{couponId}.jpg",
       "connection": "QueueStorageConnection",
-      "direction": "out"
+      "direction": "inOut",
+      "path": "coupons/{rand-guid}.jpg"
     }
   ],
   "disabled": false
