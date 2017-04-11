@@ -80,8 +80,25 @@
             };
         }
 
-        function send() {
+        function send(apiUrl) {
+            // Create feedback object
+            var feedback = { FeedbackText: document.getElementById("output").value, PhoneNumber: document.getElementById("phonenumber").value };
 
+            // Post to feedback to API
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open('POST', apiUrl, true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+                    document.getElementById("timer").innerHTML = xmlhttp.responseText;
+                }
+                else {
+                    document.getElementById("timer").innerHTML = xmlhttp.responseText;
+                }
+            }
+            xmlhttp.send(JSON.stringify(feedback));
         }
 
         function timer(time, update, complete) {

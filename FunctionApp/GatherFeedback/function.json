@@ -1,0 +1,23 @@
+﻿{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in"
+    },
+    {
+      "name": "$return",
+      "type": "http",
+      "direction": "out"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueueItem",
+      "queueName": "feedbackqueue",
+      "connection": "QueueStorageConnection",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}

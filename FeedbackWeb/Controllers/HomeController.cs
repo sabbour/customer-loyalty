@@ -12,6 +12,7 @@ namespace FeedbackWeb.Controllers
         public ActionResult Index()
         {
             ViewBag.SpeechAPIKey = ConfigurationManager.AppSettings["SpeechAPIKey"];
+            ViewBag.FeedbackAPIUrl = "https://" + ConfigurationManager.AppSettings["FunctionAppUrl"] + "/api/GatherFeedback";
             return View();
         }
     }
