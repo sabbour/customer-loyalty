@@ -1,1 +1,23 @@
-﻿
+﻿{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "webHookType": "genericJson"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "type": "blob",
+      "name": "outputBlob",
+      "path": "coupons/{couponId}.jpg",
+      "connection": "QueueStorageConnection",
+      "direction": "out"
+    }
+  ]
+}

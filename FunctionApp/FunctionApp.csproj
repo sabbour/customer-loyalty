@@ -64,6 +64,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GenerateCoupon\coupon.jpg" />
     <Content Include="host.json" />
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +80,10 @@
     <Content Include="GenerateCoupon\function.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GenerateCoupon\run.csx" />
+    <Content Include="GenerateCoupon\index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GenerateCoupon\package.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
