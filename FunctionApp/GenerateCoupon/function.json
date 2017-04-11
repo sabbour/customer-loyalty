@@ -4,8 +4,7 @@
       "authLevel": "anonymous",
       "name": "req",
       "type": "httpTrigger",
-      "direction": "in",
-      "webHookType": "genericJson"
+      "direction": "in"
     },
     {
       "type": "http",
@@ -19,5 +18,6 @@
       "connection": "QueueStorageConnection",
       "direction": "out"
     }
-  ]
+  ],
+  "disabled": false
 }
