@@ -256,7 +256,15 @@
           },
           "properties": {
             "name": "[variables('apiAppName')]",
-            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+            "siteConfig": {
+              "appSettings": [
+                {
+                  "name": "Project",
+                  "value": "CustomerAPI/CustomerAPI.csproj"
+                }
+              ]
+            }
           }
         }
       ],

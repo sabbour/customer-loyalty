@@ -1,0 +1,17 @@
+﻿[
+  {
+    "Name": "John Doe",
+    "PhoneNumber": "012345678",
+    "Email": "johndoe@email.com"
+  },
+  {
+    "Name": "Bob Doe",
+    "PhoneNumber": "010145227",
+    "Email": "bobdoe@email.com"
+  },
+  {
+    "Name": "Jane Doe",
+    "PhoneNumber": "013115663",
+    "Email": "janedoe@email.com"
+  }
+]

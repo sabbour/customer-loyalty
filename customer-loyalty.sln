@@ -9,6 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackWeb", "FeedbackWeb\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionApp", "FunctionApp\FunctionApp.csproj", "{D68143C5-E189-40BA-9C47-6C354EB7C181}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAPI", "CustomerAPI\CustomerAPI.csproj", "{DB36412F-FF1C-4F66-8968-4C5E3B7BABC9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ARM", "ARM", "{47883A43-7DD7-4DCC-8E81-1F8DB02E5327}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Function", "Function", "{C77F5EB0-62D1-418A-BA32-22BE5517AA80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web and API App", "Web and API App", "{3B30A81C-B608-4F67-8526-5A6AA693C2EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EEB0F5F-27B3-4380-9CD9-3CB81D81C874}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +40,18 @@ Global
 		{D68143C5-E189-40BA-9C47-6C354EB7C181}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D68143C5-E189-40BA-9C47-6C354EB7C181}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D68143C5-E189-40BA-9C47-6C354EB7C181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB36412F-FF1C-4F66-8968-4C5E3B7BABC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB36412F-FF1C-4F66-8968-4C5E3B7BABC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB36412F-FF1C-4F66-8968-4C5E3B7BABC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB36412F-FF1C-4F66-8968-4C5E3B7BABC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AEC0D0EC-18B2-4807-B19A-3A81590B73A2} = {47883A43-7DD7-4DCC-8E81-1F8DB02E5327}
+		{087EA457-3913-457B-950F-475443E649E8} = {3B30A81C-B608-4F67-8526-5A6AA693C2EA}
+		{D68143C5-E189-40BA-9C47-6C354EB7C181} = {C77F5EB0-62D1-418A-BA32-22BE5517AA80}
+		{DB36412F-FF1C-4F66-8968-4C5E3B7BABC9} = {3B30A81C-B608-4F67-8526-5A6AA693C2EA}
 	EndGlobalSection
 EndGlobal
