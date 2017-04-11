@@ -186,11 +186,14 @@
           "resources": [
             {
               "apiVersion": "2015-08-01",
-              "name": "Git Connection Function App",
+              "name": "web",
               "type": "sourcecontrols",
               "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
               ],
+              "tags": {
+                "displayName": "Git integration Function App"
+              },
               "properties": {
                 "repoUrl": "[parameters('repositoryUrl')]",
                 "branch": "[parameters('repositoryBranch')]",
@@ -263,7 +266,7 @@
           "resources": [
             {
               "apiVersion": "2015-08-01",
-              "name": "Git Connection Feedback Web App",
+              "name": "web",
               "type": "sourcecontrols",
               "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', variables('feedbackWebAppName'))]"
@@ -272,6 +275,9 @@
                 "repoUrl": "[parameters('repositoryUrl')]",
                 "branch": "[parameters('repositoryBranch')]",
                 "IsManualIntegration": true
+              },
+              "tags": {
+                "displayName": "Git integration Feedback Web App"
               }
             }
           ]
@@ -315,11 +321,14 @@
           "resources": [
             {
               "apiVersion": "2015-08-01",
-              "name": "Git Connection Customer API App",
+              "name": "web",
               "type": "sourcecontrols",
               "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', variables('apiAppName'))]"
               ],
+              "tags": {
+                "displayName": "Git integration Customer Details API App"
+              },
               "properties": {
                 "repoUrl": "[parameters('repositoryUrl')]",
                 "branch": "[parameters('repositoryBranch')]",
