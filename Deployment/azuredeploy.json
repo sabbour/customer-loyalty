@@ -1,0 +1,79 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "textAnalyticsSkuName": {
+      "type": "string",
+      "allowedValues": [
+        "F0",
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "defaultValue": "F0"
+    }
+  },
+  "variables": {
+    "storageName": "[concat('storage', uniqueString(resourceGroup().id))]",
+    "apiMgmtName": "[concat('apim', uniqueString(resourceGroup().id))]",
+    "functionAppName": "[concat('funcapp', uniqueString(resourceGroup().id))]",
+    "logicAppName": "[concat('logicapp', uniqueString(resourceGroup().id))]",
+    "textAnalyticsName": "[concat('textAnalytics', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+
+    {
+      "apiVersion": "2016-01-01",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "Storage Account"
+      },
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage",
+      "properties": {}
+    },
+    {
+      "name": "[variables('logicAppName')]",
+      "type": "Microsoft.Logic/workflows",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-06-01",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "Logic App Workflow"
+      },
+      "properties": {
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "actions": {},
+          "outputs": {},
+          "parameters": {},
+          "triggers": {}
+        },
+        "parameters": {}
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "sku": {
+        "name": "[parameters('textAnalyticsSkuName')]"
+      },
+      "kind": "TextAnalytics",
+      "name": "[variables('textAnalyticsName')]",
+      "tags": {
+        "displayName": "Text Analytics"
+      },
+      "apiVersion": "2016-02-01-preview",
+      "location": "westus",
+      "properties": {},
+      "dependsOn": []
+    }
+  ],
+  "outputs": {
+  }
+}
