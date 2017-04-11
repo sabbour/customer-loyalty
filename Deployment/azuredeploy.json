@@ -2,6 +2,14 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "repositoryUrl": {
+      "type": "string",
+      "defaultValue": "https://github.com/sabbour/customer-loyalty.git"
+    },
+    "repositoryBranch": {
+      "type": "string",
+      "defaultValue": "master"
+    },
     "textAnalyticsSkuName": {
       "type": "string",
       "allowedValues": [
@@ -133,6 +141,9 @@
           "properties": {
             "name": "[variables('functionAppName')]",
             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('functionDynamicPlanName'))]",
+            "repoUrl": "[parameters('repositoryUrl')]",
+            "branch": "[parameters('repositoryBranch')]",
+            "IsManualIntegration": true,
             "siteConfig": {
               "appSettings": [
                 {
@@ -220,6 +231,9 @@
           "properties": {
             "name": "[variables('feedbackWebAppName')]",
             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+            "repoUrl": "[parameters('repositoryUrl')]",
+            "branch": "[parameters('repositoryBranch')]",
+            "IsManualIntegration": true,
             "siteConfig": {
               "appSettings": [
                 {
@@ -257,6 +271,9 @@
           "properties": {
             "name": "[variables('apiAppName')]",
             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+            "repoUrl": "[parameters('repositoryUrl')]",
+            "branch": "[parameters('repositoryBranch')]",
+            "IsManualIntegration": true,
             "siteConfig": {
               "appSettings": [
                 {
