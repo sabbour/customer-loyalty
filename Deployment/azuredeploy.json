@@ -263,7 +263,15 @@
                   "name": "Project",
                   "value": "CustomerAPI/CustomerAPI.csproj"
                 }
-              ]
+              ],
+              "apiDefinition": {
+                "url": "/swagger/docs/v1"
+              },
+              "cors": {
+                "allowedOrigins": [
+                  "*"
+                ]
+              }
             }
           }
         }
