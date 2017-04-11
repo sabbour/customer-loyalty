@@ -309,7 +309,7 @@
                 }
               ],
               "apiDefinition": {
-                "url": "[concat('https://', reference(concat('Microsoft.Web/sites/', variables('apiAppName'))).defaultHostName, '/swagger/docs/v1')]"
+                "url": "[concat('https://', concat('Microsoft.Web/sites/', variables('apiAppName')).defaultHostName, '/swagger/docs/v1')]"
               },
               "cors": {
                 "allowedOrigins": [
