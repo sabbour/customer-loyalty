@@ -4,7 +4,7 @@ var azure = require('azure-storage');
 
 module.exports = function (context, data) {
 
-    context.log('Function running");
+    context.log('Function running');
 
     try {
         var customerName = data.body.CustomerName;
