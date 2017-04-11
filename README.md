@@ -34,7 +34,11 @@ This will take roughly 30 minutes as this will provision:
 
 # How to run the solution
 *	Have a look at the Customer API App that will be deployed at https://customerApi[uniqueId].azurewebsites.net/swagger
+	![alt text](Documentation/customerapi.PNG)
+
 *	Update the **customers.json** file with your email. You can edit it online here https://customerApi[uniqueId].scm.azurewebsites.net/dev/wwwroot/App_Data/customers.json
+	![alt text](Documentation/customerjson.PNG)
+
 *	Import Customer API App into API Management
 	![alt text](Documentation/apim1.PNG)
 
