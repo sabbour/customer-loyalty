@@ -3,12 +3,15 @@ var path = require("path");
 var azure = require('azure-storage');
 
 module.exports = function (context, data) {
+
+    context.log('Function running');
+
     try {
         var customerName = data.body.CustomerName;
 
         // Log incoming request:
         context.log('Got a request to create coupon for customer: ' + customerName);
-
+        /*
         // Determine where base image is:
         var baseImgPath = path.resolve(__dirname, 'coupon.jpg');
         context.log('Base image path: ' + baseImgPath);
@@ -51,6 +54,7 @@ module.exports = function (context, data) {
                 }
             });
         });
+        */
     } catch (e) {
         context.log(e.message);
     }
