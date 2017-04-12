@@ -89,12 +89,14 @@ This will take roughly 30 minutes as this will provision:
 
 	![alt text](Documentation/logic7.1.PNG)
 	
-	![alt text](Documentation/logic8.PNG)
 	"body": {
         "Body": "Here is a discount coupon @{body('GenerateCoupon').CouponUrl}",
         "Subject": "We're sorry you are not satisfied",
         "To": "@{body('Customers_GetCustomerByPhoneNumber')?['Email']}"
-    },
+    }
+	
+	![alt text](Documentation/logic8.PNG)
+
 	![alt text](Documentation/logic9.PNG)
 
 *	Save the Logic App and go back and add some feedback
