@@ -26,7 +26,7 @@ This will take roughly 30 minutes as this will provision:
 
 *	An Azure Web App hosting the feedback system
 *	An Azure API App hosting the customer API system
-*	An Azure Function App with 2 functions (GatherFeedback in C#, GenerateCoupon in nodeJs)
+*	An Azure Function App with 2 functions (GatherFeedback and GenerateCoupon)
 *	An Azure Logic App to be used to orchestrate the workflow
 *	Cognitive Services for Text Analytics and Speech To Text
 *	An API Management instance (Developer Tier)
