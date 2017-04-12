@@ -39,6 +39,8 @@ This will take roughly 30 minutes as this will provision:
 *	Update the **customers.json** file with your email. You can edit it online here https://customerApi[uniqueId].scm.azurewebsites.net/dev/wwwroot/App_Data/customers.json
 	![alt text](Documentation/customerjson.PNG)
 
+*	Upload **FunctionApp/GenerateCoupon/coupon.jpg** to **coupons/coupon.jpg** in the Blob Storage account
+
 *	Import Customer API App into API Management
 	![alt text](Documentation/apim1.PNG)
 
@@ -56,5 +58,41 @@ This will take roughly 30 minutes as this will provision:
 	![alt text](Documentation/apim7.PNG)
 
 *	Check out the functions (GatherFeedback and GenerateCoupon) deployed in the Function App
-*	Test the Feedback Web App that will be deployed at https://feedbackWeb[uniqueId].azurewebsites.net
+
+	![alt text](Documentation/functionapp.PNG)
+
+*	Edit CORS and delete anything other than the * from Allowed Origins
+
+	![alt text](Documentation/cors.PNG)
+
+*	Test the Feedback Web App that will be deployed at https://feedbackWeb[uniqueId].azurewebsites.net	
+
+	![alt text](Documentation/feedbackapp1.PNG)
+
 *	Edit the logic app by adding Queue trigger, then the required actions for Sentiment Analysis, Coupon generation and Email
+
+	![alt text](Documentation/logic1.PNG)
+	
+	![alt text](Documentation/logic2.PNG)	
+	@{Json(triggerBody()?['MessageText']).FeedbackText}
+	
+	![alt text](Documentation/logic3.PNG)
+
+	![alt text](Documentation/logic4.PNG)
+
+	![alt text](Documentation/logic5.PNG)
+
+	![alt text](Documentation/logic6.PNG)
+	@{encodeURIComponent(Json(triggerBody()?['MessageText']).PhoneNumber)}
+	
+	![alt text](Documentation/logic7.PNG)
+	
+	![alt text](Documentation/logic8.PNG)
+	"body": {
+        "Body": "Here is a discount coupon @{body('GenerateCoupon').CouponUrl}",
+        "Subject": "We're sorry you are not satisfied",
+        "To": "@{body('Customers_GetCustomerByPhoneNumber')?['Email']}"
+    },
+	![alt text](Documentation/logic9.PNG)
+
+*	Save the Logic App and go back and add some feedback
