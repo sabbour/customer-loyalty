@@ -86,6 +86,8 @@ This will take roughly 30 minutes as this will provision:
 	@{encodeURIComponent(Json(triggerBody()?['MessageText']).PhoneNumber)}
 	
 	![alt text](Documentation/logic7.PNG)
+
+	![alt text](Documentation/logic7.1.PNG)
 	
 	![alt text](Documentation/logic8.PNG)
 	"body": {
