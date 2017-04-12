@@ -4,6 +4,9 @@
     "parameters": {
         "textAnalyticsSkuName": {
             "value": "S1"
+        },
+        "bingSpeechSkuName": {
+            "value": "S0"
         }
     }
 }
