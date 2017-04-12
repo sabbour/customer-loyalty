@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-public static HttpResponseMessage Run(HttpRequestMessage req, CloudBlockBlob outputBlob, TraceWriter log)
+public static HttpResponseMessage Run(HttpRequestMessage req, CloudBlockBlob inputCoupon, CloudBlockBlob outputBlob, TraceWriter log)
 {
     // Get request body
     dynamic data = req.Content.ReadAsAsync<object>().Result;
@@ -17,20 +17,24 @@ public static HttpResponseMessage Run(HttpRequestMessage req, CloudBlockBlob out
     
     log.Info("Received coupon request for: " + name);
     
-    // Load image
-    var couponImageStream = new FileStream(@"d:\home\site\wwwroot\GenerateCoupon\coupon.jpg", FileMode.Open);
-    
     // Generate Coupon Id
     Random _rdm = new Random();
     var randomCode = _rdm.Next(1000,9999);
     
-    // Write text onto the stream
-    using (Stream memoryStream = new MemoryStream()) {
-        WriteWatermark("25% off voucher\n" + name +"\n" + randomCode, couponImageStream, memoryStream,log);
+    // Get Coupon image and write new coupon
+    using (Stream inputMemoryStream = new MemoryStream())
+    using (Stream outputMemoryStream = new MemoryStream()){
+    
+        // Get the coupon image
+        inputCoupon.DownloadToStream(inputMemoryStream);
+        inputMemoryStream.Position = 0;
+        
+        // Write the text
+        WriteWatermark("25% off voucher\n" + name +"\n" + randomCode, inputMemoryStream, outputMemoryStream,log);
         
         // Write to blob
-        memoryStream.Position = 0;
-        outputBlob.UploadFromStream(memoryStream);
+        outputMemoryStream.Position = 0;
+        outputBlob.UploadFromStream(outputMemoryStream);
         
         outputBlob.Properties.ContentType = "image/jpeg";
         outputBlob.SetProperties();
@@ -40,7 +44,7 @@ public static HttpResponseMessage Run(HttpRequestMessage req, CloudBlockBlob out
     return req.CreateResponse(HttpStatusCode.OK, new { CouponUrl = GetBlobSasUri(outputBlob) });
 }
 
-private static void WriteWatermark(string watermarkContent, FileStream originalImage, Stream newImage, TraceWriter log)
+private static void WriteWatermark(string watermarkContent, Stream originalImage, Stream newImage, TraceWriter log)
 {
     log.Info("Reading image");
     using (Image inputImage = Image.FromStream(originalImage, true))

@@ -13,6 +13,13 @@
     },
     {
       "type": "blob",
+      "name": "inputCoupon",
+      "connection": "QueueStorageConnection",
+      "direction": "inOut",
+      "path": "coupons/coupon.jpg"
+    },
+    {
+      "type": "blob",
       "name": "outputBlob",
       "connection": "QueueStorageConnection",
       "direction": "inOut",
